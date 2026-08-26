@@ -102,6 +102,18 @@ if python3 "$DEST/scripts/task.py" set T005 COMPLETE >/dev/null 2>&1; then
   exit 1
 fi
 printf 'fake-apk-for-task-cli-test' > "$DEST/dist/fake.apk"
+sha256sum "$DEST/dist/fake.apk" > "$DEST/dist/fake.apk.sha256"
+cat > "$DEST/dist/fake.apk.metadata.txt" <<'META'
+artifact=fake.apk
+version=0.1.0
+build_number=123
+git_sha=deadbeef
+git_state=clean
+signing_mode=persistent-qa
+signing_cert_sha256=001122
+fast_gates=pass
+device_tests=not_run
+META
 python3 "$DEST/scripts/task.py" accept T005 dist/fake.apk >/dev/null
 python3 "$DEST/scripts/task.py" set T005 COMPLETE >/dev/null
 [[ -f "$DEST/reports/acceptance/T005.md" ]]

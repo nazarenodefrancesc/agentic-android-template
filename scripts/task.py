@@ -231,14 +231,34 @@ def accept_task(task_id: str, artifact_arg: str):
     if not artifact.is_file():
         raise SystemExit(f"accepted artifact not found: {artifact}")
 
+    if artifact.suffix.lower() != ".apk":
+        raise SystemExit(f"{task_id}: accepted artifact must be a packaged QA APK")
+
     digest = hashlib.sha256(artifact.read_bytes()).hexdigest()
     metadata_path = Path(str(artifact) + ".metadata.txt")
+    checksum_path = Path(str(artifact) + ".sha256")
+    if not metadata_path.is_file() or not checksum_path.is_file():
+        raise SystemExit(f"{task_id}: QA metadata/checksum sidecars are required for acceptance")
+
+    expected_digest = checksum_path.read_text(encoding="utf-8").split()[0].strip()
+    if expected_digest.lower() != digest.lower():
+        raise SystemExit(f"{task_id}: artifact SHA-256 does not match its sidecar")
+
     metadata = {}
-    if metadata_path.is_file():
-        for line in metadata_path.read_text(encoding="utf-8").splitlines():
-            if "=" in line:
-                key, value = line.split("=", 1)
-                metadata[key] = value
+    for line in metadata_path.read_text(encoding="utf-8").splitlines():
+        if "=" in line:
+            key, value = line.split("=", 1)
+            metadata[key] = value
+    required_metadata = {"artifact", "version", "build_number", "git_sha", "git_state", "signing_mode", "signing_cert_sha256", "fast_gates"}
+    missing = sorted(required_metadata - metadata.keys())
+    if missing:
+        raise SystemExit(f"{task_id}: QA metadata missing: {', '.join(missing)}")
+    if metadata.get("artifact") != artifact.name:
+        raise SystemExit(f"{task_id}: QA metadata artifact name does not match the accepted APK")
+    if metadata.get("git_state") != "clean":
+        raise SystemExit(f"{task_id}: human acceptance must reference a clean-tree QA artifact")
+    if metadata.get("fast_gates") != "pass":
+        raise SystemExit(f"{task_id}: human acceptance requires fast_gates=pass")
 
     out = acceptance_path(task_id)
     out.parent.mkdir(parents=True, exist_ok=True)
