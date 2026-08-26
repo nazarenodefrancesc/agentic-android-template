@@ -3,7 +3,7 @@ package com.example.agentictemplate.ui
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import com.example.agentictemplate.build.BuildDiagnostics
+import com.example.agentictemplate.diagnostics.BuildDiagnostics
 import org.junit.Rule
 import org.junit.Test
 

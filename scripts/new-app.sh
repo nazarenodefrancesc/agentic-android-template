@@ -19,11 +19,13 @@ command -v git >/dev/null 2>&1 || { echo "ERROR: git required." >&2; exit 2; }
 
 TEMPLATE_SHA=$(git -C "$SRC" rev-parse HEAD 2>/dev/null || echo unknown)
 mkdir -p "$DEST"
-# Preserve dotfiles, exclude source history/build/cache/output/secrets.
-tar -C "$SRC" \
-  --exclude=.git --exclude=.gradle --exclude=.gradle-bootstrap --exclude=.secrets \
-  --exclude='*/build' --exclude=dist --exclude=qa-signing.properties \
-  -cf - . | tar -C "$DEST" -xf -
+if [[ -n "$(git -C "$SRC" status --porcelain)" ]]; then
+  echo "WARNING: template has uncommitted changes; derivation uses committed HEAD $TEMPLATE_SHA" >&2
+fi
+# Derive only from tracked golden-template state. This naturally excludes build
+# output, caches, secrets and the source .git directory without broad path
+# patterns that could accidentally remove valid source packages.
+git -C "$SRC" archive --format=tar HEAD | tar -C "$DEST" -xf -
 mkdir -p "$DEST/dist"
 touch "$DEST/dist/.gitkeep"
 

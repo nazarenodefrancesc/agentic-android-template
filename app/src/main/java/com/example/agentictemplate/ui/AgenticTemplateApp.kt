@@ -21,7 +21,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.agentictemplate.build.BuildDiagnostics
+import com.example.agentictemplate.diagnostics.BuildDiagnostics
 
 @Composable
 fun AgenticTemplateApp(viewModel: MainViewModel = viewModel()) {
