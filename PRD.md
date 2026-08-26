@@ -2,7 +2,7 @@
 
 ## Status
 
-`v0.1.0-candidate`
+`v0.1.1-candidate`
 
 Structural repository validation: **PASS**.
 Android compilation/device validation: **PENDING on the target Android build server** because the artifact-packaging environment has no Android SDK and no network-accessible Gradle dependency cache.

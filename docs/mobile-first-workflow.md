@@ -15,7 +15,7 @@ Human describes change
 → cheap automated tests
 → lint/static gate
 → instrumented/headless device gate where relevant
-→ QA APK built and signed
+→ clean-tree QA APK built, signature verified and fingerprinted
 → artifact delivered via Telegram/link/storage
 → human installs on phone
 → human reports ACCEPT or defect + build diagnostics
@@ -38,7 +38,7 @@ Observed: app returns to home and title is unchanged
 Expected: edited title persists
 ```
 
-The app's diagnostic screen exists to make build provenance copyable from the device.
+The app's diagnostic screen exists to make build provenance copyable from the device. When the human explicitly accepts a task that requires physical acceptance, the agent records the exact packaged APK with `python3 scripts/task.py accept Txxx dist/<apk>` before marking the task `COMPLETE`.
 
 ## Telegram delivery
 
