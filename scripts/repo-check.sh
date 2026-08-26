@@ -6,7 +6,7 @@ cd "$ROOT"
 required=(
   AGENTS.md PRD.md settings.gradle.kts build.gradle.kts gradle/libs.versions.toml
   app/build.gradle.kts core/domain/build.gradle.kts
-  scripts/task.py scripts/check.sh scripts/qa-build.sh scripts/publish-telegram.sh templates/APP_PRD.md
+  scripts/task.py scripts/check.sh scripts/qa-build.sh scripts/verify-apk.sh scripts/template-self-test.sh scripts/publish-telegram.sh templates/APP_PRD.md
 )
 for f in "${required[@]}"; do
   [[ -e "$f" ]] || { echo "MISSING: $f" >&2; exit 1; }
@@ -21,6 +21,10 @@ python3 scripts/task.py validate
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   if git ls-files | grep -E '(^|/)(qa-signing\.properties|.*\.(jks|keystore)|local\.properties)$' >/dev/null; then
     echo "ERROR: signing/local secret-like file is tracked by Git." >&2
+    exit 1
+  fi
+  if git ls-files | grep -E '(^|/)(__pycache__/|.*\.py[co]$)' >/dev/null; then
+    echo "ERROR: generated Python cache is tracked by Git." >&2
     exit 1
   fi
 fi

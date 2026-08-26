@@ -26,9 +26,19 @@ if [[ -z "${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}" ]]; then
 else
   SDK="${ANDROID_HOME:-$ANDROID_SDK_ROOT}"
   echo "SDK: $SDK"
-  for p in "platforms/android-37" "build-tools/36.0.0"; do
-    [[ -e "$SDK/$p" ]] || echo "MISSING SDK PACKAGE/PATH: $p"
+  missing=0
+  for p in "platforms/android-37" "build-tools/36.0.0" "platform-tools"; do
+    if [[ ! -e "$SDK/$p" ]]; then
+      echo "MISSING SDK PACKAGE/PATH: $p"
+      missing=1
+    fi
   done
+  APKSIGNER="$SDK/build-tools/36.0.0/apksigner"
+  [[ -x "$APKSIGNER" ]] || { echo "MISSING TOOL: apksigner"; missing=1; }
+  [[ -x "$SDK/platform-tools/adb" ]] || { echo "MISSING TOOL: adb"; missing=1; }
+  if [[ "$missing" == "1" ]]; then
+    echo "WARNING: Android SDK is incomplete; QA/device gates will not run until the missing packages are installed."
+  fi
 fi
 
 echo "== Repository check =="

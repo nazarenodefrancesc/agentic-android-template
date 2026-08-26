@@ -12,7 +12,7 @@ If genuinely reusable runtime code emerges after multiple apps, extract it later
 
 ## Baseline
 
-- Android Gradle Plugin: 9.3.0
+- Android Gradle Plugin: 9.3.2
 - Gradle: 9.5.0
 - compileSdk / targetSdk: 37
 - minSdk: 26
@@ -84,8 +84,9 @@ Default behavior:
 3. Android unit tests;
 4. lint for QA;
 5. QA APK build;
-6. copy/rename APK into `dist/`;
-7. write SHA-256 and metadata next to the APK.
+6. verify the APK signature with Android `apksigner`;
+7. copy/rename APK into `dist/`;
+8. write artifact SHA-256, signing-certificate fingerprint and gate metadata next to the APK.
 
 To include headless managed-device tests:
 
@@ -93,7 +94,7 @@ To include headless managed-device tests:
 RUN_DEVICE_TESTS=1 ./scripts/qa-build.sh
 ```
 
-The produced artifact is intended to be sent to the human tester's Android phone. A task with `human_acceptance: required` remains `IN_REVIEW` until that APK is accepted on a physical device.
+By default the QA pipeline refuses a dirty Git working tree, so the installed artifact is reproducible from its recorded commit. The produced artifact is intended to be sent to the human tester's Android phone. A task with `human_acceptance: required` remains `IN_REVIEW` until that APK is accepted on a physical device.
 
 Optional Telegram delivery:
 
@@ -122,9 +123,21 @@ python3 scripts/task.py next
 python3 scripts/task.py list
 python3 scripts/task.py set T001 IN_PROGRESS
 python3 scripts/task.py check T001
+# after explicit physical acceptance of a human-required task:
+python3 scripts/task.py accept T001 dist/<accepted-build>.apk
 ```
 
 Agents must not choose work by scanning the repository and improvising priority. See `AGENTS.md`.
+
+## Template regression self-test
+
+The golden repository can test its own derivation logic without Android SDK/network dependencies:
+
+```bash
+./scripts/template-self-test.sh
+```
+
+It creates a temporary derived app, verifies package/name rewriting and independent Git initialization, exercises dependency routing and lifecycle transitions, checks cycle detection, and verifies the physical-acceptance completion guard.
 
 ## First intended validation
 

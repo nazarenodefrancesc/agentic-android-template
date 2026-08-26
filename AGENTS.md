@@ -28,7 +28,7 @@ Do not context-dump the whole repository.
 
 ## 3. Deterministic task selection
 
-Use `python3 scripts/task.py next` unless the human explicitly names a task.
+Use `python3 scripts/task.py next` unless the human explicitly names a task. Use `task.py set` only through valid lifecycle transitions; the CLI rejects state skipping.
 
 Valid states:
 
@@ -119,7 +119,7 @@ Full QA including headless device tests:
 RUN_DEVICE_TESTS=1 ./scripts/qa-build.sh
 ```
 
-A user-visible task marked `human_acceptance: required` cannot move from `IN_REVIEW` to `COMPLETE` until the human accepts an identified QA artifact on a physical Android device.
+A user-visible task marked `human_acceptance: required` cannot move from `IN_REVIEW` to `COMPLETE` until the human accepts an identified QA artifact on a physical Android device. After explicit human acceptance, record it with `python3 scripts/task.py accept Txxx dist/<accepted>.apk`; only then may the task become `COMPLETE`.
 
 ## 8. Mobile-first human workflow
 
@@ -127,14 +127,14 @@ Assume the human is not using Android Studio or a desktop GUI.
 
 Therefore every reviewable user-visible increment must be distributable as an installable QA APK. Do not ask the human to open an emulator, inspect a desktop window, or execute IDE-only steps unless explicitly requested.
 
-Every QA artifact must be traceable to:
+Every QA artifact must be built from a clean Git tree by default and be traceable to:
 
 - app/version;
 - build number;
 - Git SHA;
 - dirty/clean state;
 - build UTC time;
-- signing mode;
+- signing mode and signing-certificate SHA-256 fingerprint;
 - test/gate result.
 
 ## 9. Commits

@@ -26,8 +26,12 @@ Runs QA instrumented tests on the lightweight API 30 ATD by default. Set `DEVICE
 
 `scripts/qa-build.sh`
 
-Produces a traceable APK and metadata under `dist/` only after previous required automated gates succeed.
+Requires a clean Git tree by default, produces a signed traceable APK, verifies it with `apksigner`, and records both artifact SHA-256 and signing-certificate SHA-256 metadata under `dist/` only after previous required automated gates succeed.
 
 ## Gate E — physical acceptance
 
-Performed on the human's real Android phone for tasks that explicitly require it. The accepted artifact must be identified by build number + Git SHA.
+Performed on the human's real Android phone for tasks that explicitly require it. The accepted artifact must be identified by build number + Git SHA. Record explicit acceptance with `python3 scripts/task.py accept Txxx dist/<apk>` before moving the task to `COMPLETE`.
+
+## Template self-test — generator regression
+
+`scripts/template-self-test.sh` validates new-app derivation, independent Git bootstrap, deterministic dependency routing, lifecycle transition guards, cycle detection and required physical-acceptance recording. It is intentionally Android-SDK-independent.

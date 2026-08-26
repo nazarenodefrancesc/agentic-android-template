@@ -32,3 +32,10 @@ reports/generated/
 
 # Local agent scratch
 .agent-scratch/
+
+# Python generated files
+__pycache__/
+*.py[cod]
+
+# Wrapper JAR is bootstrapped locally on first use
+gradle/wrapper/gradle-wrapper.jar
