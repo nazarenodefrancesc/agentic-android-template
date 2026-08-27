@@ -27,6 +27,12 @@ Only context specific to this task.
 - [ ] relevant tests
 - [ ] lint/build gate
 
+## Evidence classification
+
+- Behavioral/semantic evidence: tests proving state, accessibility, node presence or interaction.
+- Rendered visual evidence: screenshot/visual test explicitly adopted by the project, or physical-device acceptance.
+- [ ] Visual criteria are identified separately from semantic criteria; semantic assertions alone are not visual proof.
+
 ## Human acceptance
 
 `not_required` or define the minimal physical-device scenario.

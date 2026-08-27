@@ -95,6 +95,12 @@ Prefer the cheapest reliable level:
 5. managed-device journey/smoke test;
 6. physical human acceptance.
 
+For UI criteria, distinguish semantic evidence from rendered visual evidence. Compose
+semantics assertions validate node presence, accessibility and interaction; they do not
+prove that pixels, colors, shapes, icons, spacing, clipping or contrast render correctly.
+Mark visual criteria explicitly and require a separate screenshot-based or physical-device
+evidence path. Do not claim visual correctness solely because `assertIsDisplayed()` passes.
+
 Do not push logic upward into UI merely to make it easier to implement.
 
 ## 7. Quality gates

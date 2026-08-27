@@ -15,6 +15,13 @@
 | instrumented/device | N/A | |
 | QA build | PENDING | |
 
+## Evidence classification
+
+| Evidence type | Result | Evidence |
+|---|---|---|
+| Behavioral/semantic UI | PENDING | |
+| Rendered visual UI | N/A / PENDING | Screenshot/visual test or physical-device evidence; semantics alone do not prove pixels |
+
 ## Human acceptance
 
 - Required: no

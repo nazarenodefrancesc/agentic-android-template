@@ -35,6 +35,8 @@ None initially. Record justified deviations here and create ADRs for durable dec
 Physical acceptance device: Android phone.
 
 For each user-visible task, specify whether `human_acceptance` is `required` or `not_required`.
+Mark visual acceptance criteria separately from behavioral/semantic criteria and state how
+rendered appearance will be verified. A Compose semantics assertion alone is not visual evidence.
 
 ## Initial backlog
 
