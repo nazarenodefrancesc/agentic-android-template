@@ -63,8 +63,8 @@ conditions and that deriving an app does not require the entire app to be open s
 
 The existing `v0.1.2-candidate` tag remains unchanged and points to
 `0a026ce19ae9b55d7f4fb54127b4773a1a1a5472`, before this cleanup. `master` originally
-pointed to `570ec6a3973d0b3a0a553c1cf5e3da80ec69f00b`; the cleanup commits are local
-until explicitly pushed.
+pointed to `570ec6a3973d0b3a0a553c1cf5e3da80ec69f00b`. The cleanup was merged with the
+remote license commit and published to `master` at `8e7d15c4ede4a9e76df25bde55ca97a1f41fda19`.
 
 No destructive history rewrite was performed. Rewriting would remove the historical
 `.pyc` and old provenance text from reachable branch/tag history, require force-pushing
@@ -83,8 +83,9 @@ guarantee removal from third-party caches or already cloned copies.
 
 ## Recommendation
 
-Keep the old tag immutable. Publish the cleanup commits and create a new candidate tag,
-for example `v0.1.3-candidate`, at the hardened commit. Do not rewrite history unless
+Keep the old tag immutable. The new candidate tag `v0.1.3-candidate` is published at
+the hardened pre-merge commit, and `master` now contains the complete merged cleanup.
+Do not rewrite history unless
 the repository owner explicitly accepts force-push and clone/fork disruption; current
 tree hygiene plus Secret Scanning/Push Protection is the lower-risk public hardening
 path.
