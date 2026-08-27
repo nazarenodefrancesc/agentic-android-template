@@ -2,7 +2,7 @@
 
 ## Status
 
-`v0.1.2-candidate`
+`v0.1.3-candidate`
 
 Structural repository validation: **PASS**.
 Android compilation/device validation: **PENDING on the target Android build server** because the artifact-packaging environment has no Android SDK and no network-accessible Gradle dependency cache.
@@ -61,7 +61,7 @@ See `docs/architecture.md` and `docs/decisions/ADR-0001-golden-template-not-comm
 - [x] QA signing setup exists and secrets are ignored;
 - [x] automated quality/build scripts exist;
 - [x] build-managed headless device configuration exists;
-- [x] CI reference workflow exists;
+- [x] GitHub Actions workflow is intentionally not included in the baseline;
 - [ ] target server successfully executes `./scripts/setup-server.sh`;
 - [ ] target server successfully executes `./scripts/check.sh`;
 - [ ] target server successfully creates an installable QA APK;
