@@ -76,6 +76,10 @@ cat > "$DEST/TEMPLATE_ORIGIN.md" <<EOF
 - Derived UTC: $(date -u +%Y-%m-%dT%H:%M:%SZ)
 
 This app is an independent snapshot. Template changes do not propagate automatically.
+
+The snapshot retains LICENSE for inherited Apache-2.0 template material. Original
+application code may be licensed separately by the application owner; deriving an app
+does not by itself require the whole app to use Apache-2.0 or to be open source.
 EOF
 
 # Fresh app version baseline.

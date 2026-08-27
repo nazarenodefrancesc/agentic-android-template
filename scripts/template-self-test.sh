@@ -17,8 +17,10 @@ DEST="$TMP_ROOT/smoke-app"
 [[ -d "$DEST/.git" ]] || { echo "ERROR: derived repository has no .git" >&2; exit 1; }
 [[ ! -e "$DEST/TEMPLATE.md" ]] || { echo "ERROR: TEMPLATE.md leaked into derived app" >&2; exit 1; }
 [[ -e "$DEST/TEMPLATE_ORIGIN.md" ]] || { echo "ERROR: TEMPLATE_ORIGIN.md missing" >&2; exit 1; }
+[[ -e "$DEST/LICENSE" ]] || { echo "ERROR: inherited LICENSE missing from derived app" >&2; exit 1; }
 grep -q 'Template Smoke App' "$DEST/PRD.md"
 grep -q 'com.example.templatesmoke' "$DEST/app/build.gradle.kts"
+grep -q 'Original application code may be licensed separately' "$DEST/TEMPLATE_ORIGIN.md"
 if grep -R --exclude-dir=.git --exclude='TEMPLATE_ORIGIN.md' -n 'com\.example\.agentictemplate' "$DEST" >/dev/null; then
   echo "ERROR: stale template package remained after derivation" >&2
   exit 1

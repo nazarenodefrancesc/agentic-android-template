@@ -139,6 +139,14 @@ The golden repository can test its own derivation logic without Android SDK/netw
 
 It creates a temporary derived app, verifies package/name rewriting and independent Git initialization, exercises dependency routing and lifecycle transitions, checks cycle detection, and verifies the physical-acceptance completion guard.
 
+## License
+
+The Agentic Android Template is licensed under the Apache License 2.0. An application
+derived from this template may use a separate license for its original code, including
+a proprietary license. Apache-licensed template material copied into a derived app
+remains subject to the applicable Apache-2.0 conditions; using the template does not
+require the entire derived application to be open source.
+
 ## First intended validation
 
 The first derived app should intentionally be small. Its purpose is to validate the whole factory:

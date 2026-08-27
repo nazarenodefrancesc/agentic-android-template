@@ -20,6 +20,20 @@ qa-signing.properties
 *.jks
 *.keystore
 
+# Environment / credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+service-account*.json
+credentials.json
+secrets.json
+
 # Generated QA artifacts
 dist/*
 !dist/.gitkeep
