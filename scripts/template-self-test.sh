@@ -20,7 +20,7 @@ DEST="$TMP_ROOT/smoke-app"
 [[ -e "$DEST/LICENSE" ]] || { echo "ERROR: inherited LICENSE missing from derived app" >&2; exit 1; }
 grep -q 'Template Smoke App' "$DEST/PRD.md"
 grep -q 'com.example.templatesmoke' "$DEST/app/build.gradle.kts"
-grep -q 'Original application code may be licensed separately' "$DEST/TEMPLATE_ORIGIN.md"
+grep -q 'application code may be licensed separately' "$DEST/TEMPLATE_ORIGIN.md"
 if grep -R --exclude-dir=.git --exclude='TEMPLATE_ORIGIN.md' -n 'com\.example\.agentictemplate' "$DEST" >/dev/null; then
   echo "ERROR: stale template package remained after derivation" >&2
   exit 1
