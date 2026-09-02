@@ -112,7 +112,7 @@ Generate a persistent QA keystore once on the build server:
 ./scripts/setup-qa-keystore.sh
 ```
 
-Secrets are written under `.secrets/`, which is Git-ignored. The build falls back to the normal debug signing key if no QA keystore is configured, but that fallback is not the recommended long-lived workflow.
+Secrets are written under `.secrets/`, which is Git-ignored. Persistent QA signing is mandatory: the build fails when the keystore is missing and never falls back to a debug key. Keep the same keystore for every update build and compare the recorded certificate fingerprint before delivery.
 
 ## Deterministic task routing
 

@@ -24,8 +24,11 @@ VERSION=$(awk -F= '$1=="VERSION_NAME"{print $2}' version.properties)
 OUT="dist/${APP_NAME}-${VERSION}-qa-${BUILD_NUMBER}-${SHA}.apk"
 cp "$APK" "$OUT"
 sha256sum "$OUT" > "$OUT.sha256"
-SIGNING_MODE="debug-fallback"
-[[ -f qa-signing.properties ]] && SIGNING_MODE="persistent-qa"
+[[ -f qa-signing.properties ]] || {
+  echo "ERROR: persistent QA signing is required; qa-signing.properties is missing." >&2
+  exit 2
+}
+SIGNING_MODE="persistent-qa"
 VERIFY_OUTPUT="$(./scripts/verify-apk.sh "$OUT")"
 CERT_SHA256="$(printf '%s\n' "$VERIFY_OUTPUT" | awk -F= '$1=="signing_cert_sha256"{print $2}' | tail -n1)"
 [[ -n "$CERT_SHA256" ]] || { echo "ERROR: signer fingerprint missing after APK verification." >&2; exit 1; }

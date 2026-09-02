@@ -72,9 +72,12 @@ android {
             applicationIdSuffix = ".qa"
             versionNameSuffix = "-qa.$buildNumber"
             matchingFallbacks += listOf("debug")
-            signingConfig = if (hasQaSigning) signingConfigs.getByName("qa") else signingConfigs.getByName("debug")
+            check(hasQaSigning) {
+                "Persistent QA signing is required. Run scripts/setup-qa-keystore.sh before building QA."
+            }
+            signingConfig = signingConfigs.getByName("qa")
             buildConfigField("String", "BUILD_CHANNEL", "\"qa\"")
-            buildConfigField("String", "SIGNING_MODE", if (hasQaSigning) "\"persistent-qa\"" else "\"debug-fallback\"")
+            buildConfigField("String", "SIGNING_MODE", "\"persistent-qa\"")
         }
         getByName("release") {
             isMinifyEnabled = true
